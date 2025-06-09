@@ -1,6 +1,7 @@
 # Task Tracker CLI
 
-A simple and efficient command-line tool to manage your daily tasks. Built with Go for speed and reliability.
+A simple and efficient command-line tool to manage your daily tasks.
+Built with Go using Clean Architecture principles for speed and reliability for my own educational purpose.
 
 ## Quick Start
 
@@ -9,7 +10,7 @@ A simple and efficient command-line tool to manage your daily tasks. Built with 
 git clone https://github.com/alnah/task-tracker
 cd task-tracker
 
-# Build and try it
+# Build and try it out
 make demo
 ```
 
@@ -19,7 +20,7 @@ make demo
 # Build locally
 make build
 
-# Or install system-wide
+# Or install system-wide (requires sudo)
 make install
 ```
 
@@ -100,71 +101,110 @@ make install
 ```
 task-tracker/
 ├── main.go           # Application entry point
-├── model.go          # Task data structure
-├── logic.go          # Task operations
-├── repository.go     # File storage
-├── application.go    # Business logic
+├── model.go          # Task data structure and domain errors
+├── logic.go          # Domain business logic
+├── repository.go     # Data persistence layer
+├── application.go    # Application services (use cases)
 ├── cli.go           # Command-line interface
-├── main_test.go     # All tests
-├── go.mod           # Go dependencies
-├── Makefile         # Build commands
+├── main_test.go     # Comprehensive test suite
+├── go.mod           # Go module definition
+├── Makefile         # Build automation
 └── README.md        # This file
 ```
 
 ## Development
 
-### Available Commands
+### Available Make Commands
 
 ```bash
-make build      # Build the application
-make test       # Run tests
-make demo       # Try the application
-make clean      # Clean up files
-make install    # Install globally
-make dev        # Development workflow
+make help           # Show all available commands
+make build          # Build the application
+make run            # Build and run with help command
+make test           # Run all tests
+make test-coverage  # Run tests with coverage report
+make demo           # Run a complete interactive demo
+make clean          # Clean up generated files
+make install        # Install globally (requires sudo)
+make dev            # Development workflow (clean, test, build)
+make check          # Run tests and build verification
+make quick-start    # Build and demo for new users
 ```
 
 ### Testing
 
-The project includes comprehensive tests for all functionality:
+The project includes comprehensive tests for all layers:
 
 ```bash
-# Run all tests
+# Run all tests with verbose output
 make test
 
-# Run tests with coverage report
+# Generate coverage report (creates coverage.html)
 make test-coverage
+
+# Development workflow with all checks
+make dev
 ```
+
+### Development Workflow
+
+```bash
+# For active development
+make dev        # Runs clean, test, and build
+
+# Quick verification
+make check      # Runs test and build
+
+# New user experience
+make quick-start # Runs build and demo
+```
+
+## Architecture
+
+This project demonstrates **Clean Architecture** principles:
+
+- **Domain Layer** (`model.go`, `logic.go`): Core business rules and entities
+- **Application Layer** (`application.go`): Use cases and business workflows
+- **Infrastructure Layer** (`repository.go`): Data persistence
+- **Presentation Layer** (`cli.go`): User interface
 
 ## Features
 
 - ✅ **Simple**: Easy to learn and use
 - ⚡ **Fast**: Built with Go for performance
 - 💾 **Persistent**: Saves tasks to a JSON file
-- 🔒 **Reliable**: Comprehensive error handling
-- 🧪 **Tested**: Full test coverage
+- 🔒 **Reliable**: Comprehensive error handling and validation
+- 🧪 **Tested**: Full test coverage with multiple test types
 - 📱 **Portable**: Single binary, works anywhere
+- 🏗️ **Clean Architecture**: Well-structured, maintainable code
+- 🔧 **Developer Friendly**: Rich Makefile with helpful commands
 
 ## How It Works
 
 Your tasks are stored in a `tasks.json` file in the current directory. Each task has:
 
 - **ID**: Unique number (auto-generated)
-- **Description**: What you need to do
+- **Description**: What you need to do (validated, trimmed)
 - **Status**: `todo`, `in-progress`, or `done`
 - **Timestamps**: When created and last updated
 
+The application follows domain-driven design with proper separation of concerns:
+
+- Domain entities with business rules
+- Repository pattern for data access
+- Application services for use cases
+- Clean CLI interface
+
 ## Requirements
 
-- Go 1.19 or later
-- No external dependencies
+- Go 1.24.2 or later
+- No external dependencies (pure Go standard library)
 
-## Contributing
+### Testing Guidelines
 
-1. Fork the repository
-2. Make your changes
-3. Run `make test` to ensure tests pass
-4. Submit a pull request
+- Write tests for all new features
+- Maintain test coverage above 80%
+- Use table-driven tests for multiple scenarios
+- Include integration tests for workflows
 
 ## License
 
