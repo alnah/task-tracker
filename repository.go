@@ -28,7 +28,7 @@ func (r *FileTaskRepository) Save(tasks []Task) error {
 		return fmt.Errorf("failed to marshal tasks: %w", err)
 	}
 
-	err = os.WriteFile(r.filename, data, 0o644)
+	err = os.WriteFile(r.filename, data, 0o600)
 	if err != nil {
 		return fmt.Errorf("failed to write file: %w", err)
 	}
